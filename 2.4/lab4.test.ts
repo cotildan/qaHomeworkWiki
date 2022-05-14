@@ -27,13 +27,15 @@ const errorCard: By = By.css(".errorCard");
 describe("Employee Manager 1.2", () => {
 
     beforeEach(async () => {
+        // Open the Employee Manager v1.2 URL
         await driver.get(
         "https://devmountain-qa.github.io/employee-manager/1.2_Version/index.html"
         );
         await driver.sleep(200);
     });
     afterAll(async () => {
-      //  await driver.quit();
+        // Closes the chrome window
+       await driver.quit();
     });
     describe("handles unsaved, canceled, and saved changes correctly", () => {
         test("An unsaved change doesn't persist", async () => {
@@ -56,12 +58,19 @@ describe("Employee Manager 1.2", () => {
 
 
         */
+        // Click on Bernice Ortiz' name on the left-hand side
         await driver.findElement(bernice).click();
         await driver.wait(
             until.elementIsVisible(await driver.findElement(bernice))
         );
+
+        // empty the name textbox
         await driver.findElement(nameInput).clear();
+
+        //write Cotilda Nakimuli I in the name textbox
         await driver.findElement(nameInput).sendKeys("Cotilda Nakimuli I");
+        
+        //Click on Phillip Weaver's name on the left-hand side
         await driver.findElement(phillip).click();
         await driver.wait(
             until.elementTextContains(
@@ -69,6 +78,8 @@ describe("Employee Manager 1.2", () => {
             "Phillip"
             )
         );
+
+        //go back and click on Bernice's name on the left-hand side
         await driver.findElement(bernice).click();
         await driver.wait(
             until.elementTextContains(
@@ -76,6 +87,8 @@ describe("Employee Manager 1.2", () => {
             "Bernice"
             )
         );
+
+        // Checking/Testing if the name matches Bernice Ortiz
         expect(
             await (await driver.findElement(nameInput)).getAttribute("value")
         ).toBe("Bernice Ortiz");
@@ -98,13 +111,23 @@ describe("Employee Manager 1.2", () => {
 
 
             */
+
+            // Click on Phillip Weaver's name on the left-hand side
             await driver.findElement(phillip).click();
             await driver.wait(
                 until.elementIsVisible(await driver.findElement(phillip))
             );
+
+            // empty the name textbox
             await driver.findElement(nameInput).clear();
+
+            //write Cotilda Nakimuli II in the name textbox
             await driver.findElement(nameInput).sendKeys("Cotilda Nakimuli II");
+
+            // Click the cancel button
             await driver.findElement(cancelButton).click();
+
+             // Checking/Testing if the name matches Phillip Weaver
             expect(
                 await (await driver.findElement(nameInput)).getAttribute("value")
             ).toBe("Phillip Weaver");
@@ -132,13 +155,22 @@ describe("Employee Manager 1.2", () => {
 
 
             */
+           // Click on Bernice Ortiz' name on the left-hand side
             await driver.findElement(bernice).click();
             await driver.wait(
                 until.elementIsVisible(await driver.findElement(bernice))
             );
+
+            // empty the name textbox
             await driver.findElement(nameInput).clear();
+
+            //write Cotilda Nakimuli III in the name textbox
             await driver.findElement(nameInput).sendKeys("Cotilda Nakimuli III");
+
+            //click on the save button
             await driver.findElement(saveButton).click();
+
+            // Click on Phillip Weaver's name on the left-hand side
             await driver.findElement(phillip).click();
             await driver.wait(
                 until.elementTextContains(
@@ -146,7 +178,11 @@ describe("Employee Manager 1.2", () => {
                 "Phillip"
                 )
             );
+
+            // go back and click on Bernice Ortiz' name on the left-hand side
             await driver.findElement(bernice).click();
+
+            // Checking/Testing that the name field should be Cotilda Nakimuli III
             expect(
                 await (await driver.findElement(nameInput)).getAttribute("value")
             ).toBe("Cotilda Nakimuli III");
@@ -171,14 +207,25 @@ describe("Employee Manager 1.2", () => {
             const errorCard: By = By.css(".errorCard");
 
             */
+           // Click on Bernice Ortiz' name on the left-hand side
             await driver.findElement(bernice).click();
             await driver.wait(
                 until.elementIsVisible(await driver.findElement(bernice))
             );
+
+            // empty the name textbox
             await driver.findElement(nameInput).clear();
+
+            //write a space then backspace (it's a blank textbox) in the name textbox
             await driver.findElement(nameInput).sendKeys(Key.SPACE, Key.BACK_SPACE);
+
+            // click the save button
             await driver.findElement(saveButton).click();
+
+            // wait to see if there is an error message
             await driver.wait(until.elementLocated(errorCard));
+
+            //Checking/Testing that there is an error message displayed about the name field
             expect(await (await driver.findElement(errorCard)).getText()).toBe(
                 "The name field must be between 1 and 30 characters long."
             );
@@ -204,20 +251,39 @@ describe("Employee Manager 1.2", () => {
             6. Verify the error is gone
 
             */
+           // Click on Bernice Ortiz' name on the left-hand side
             await driver.findElement(bernice).click();
             await driver.wait(
                 until.elementIsVisible(await driver.findElement(bernice))
             );
+
+            // empty the name textbox
             await driver.findElement(nameInput).clear();
+
+            //write a space then backspace (it's a blank textbox) in the name textbox
             await driver.findElement(nameInput).sendKeys(Key.SPACE, Key.BACK_SPACE);
+
+            //click the save button
             await driver.findElement(saveButton).click();
+
+            // wait to see if there is an error message
             await driver.wait(until.elementLocated(errorCard));
+
+            //Checking/Testing that there is an error message displayed about the name field
             expect(await (await driver.findElement(errorCard)).getText()).toBe(
                 "The name field must be between 1 and 30 characters long."
             );
+
+            //write a space in the name textbox
             await driver.findElement(nameInput).sendKeys(Key.SPACE);
+
+            //click cancel button
             await driver.findElement(cancelButton).click();
+
+            // giving chrome some time
             driver.wait(() => true, 500);
+
+            //Checking/Testing that there is no error message
             expect(await driver.findElements(errorCard)).toHaveLength(0);
         });
     }); 
