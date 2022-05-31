@@ -6,12 +6,15 @@ import{
     Capabilities, until, 
     WebDriver, WebElement
 } from "selenium-webdriver"
+
 /*
 const chromedriver = require("chromedriver");
-*/
+
 const driver: WebDriver = new Builder()
 .withCapabilities(Capabilities.chrome())
 .build();
+*/
+
 
 export class SpecPage{
 
@@ -46,7 +49,7 @@ export class SpecPage{
 
     async sendKeys(elementBy: By, keys){
         await this.driver.wait(until.elementLocated(elementBy))
-        return driver.findElement(elementBy).sendKeys(keys)
+        return this.driver.findElement(elementBy).sendKeys(keys)
     }
 
     async getText(elementBy: By){
